@@ -19,8 +19,8 @@ class City:
         self.cityMap = ndarray((width,height),dtype='O')
 
         # Place a starting intersection in the middle of the map
-        currX = self.width // 2 
-        currY = self.height // 2
+        currX = self.width // 3 
+        currY = self.height // 3
         self.cityMap[currY][currX] = '#'
 
         # Generate roads in all directions
