@@ -116,5 +116,8 @@ class City:
                 if self.cityMap[y][x] not in ['#',None]:
                     if (self.cityMap[y-1][x] in ['-','|']) or (self.cityMap[y+1][x] in ['-','|']) and \
                         (self.cityMap[y][x-1] in ['-','|']) or (self.cityMap[y][x+1] in ['-','|']):
-                        self.cityMap[y][x] = "#"     
+                        self.cityMap[y][x] = "#"
+
+    def getMap(self):
+        return self.cityMap     
         
