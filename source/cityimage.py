@@ -1,7 +1,5 @@
 from PIL import Image
 import gencity
-import os
-
 
 class CityImage:
     def loadIntersection(self,intersectionPath):
@@ -23,28 +21,27 @@ class CityImage:
         # create a new image    
         city = Image.new("RGBA",imageSize)
 
-        cityMap = gencity.City()
-        cityMap.generateCity(mapSize[0],mapSize[1])
+        cityMapGen = gencity.City()
+        cityMapGen.generateCity(mapSize[0],mapSize[1])
         
-        # Start in the middle of the map
-        startPosition = (imageSize[0] // 2, imageSize[1] // 2)
+        # Start in top 1/3 of the map
+        startPosition = (imageSize[0] // 3, imageSize[1] // 3)
 
         # Currently, these are hardcoded
-        tile_width = 132
         tile_width_half = 64
-        tile_height = 101
         tile_height_half = 32
 
+        # Translate the cityMap into an image
+        currentMap = cityMapGen.getMap()
         for y in range(0,mapSize[1]):
             for x in range(0,mapSize[0]):
                 position = ((x*tile_width_half)-(y*tile_width_half)+startPosition[0],(y*tile_height_half)+(x*tile_height_half)+startPosition[1])
 
-                if cityMap.cityMap[y][x] == '#':
+                if currentMap[y][x] == '#':
                     city.alpha_composite(self.intersection,position)
-                elif cityMap.cityMap[y][x] == '|':
+                elif currentMap[y][x] == '|':
                     city.alpha_composite(self.up,position)
-                    pass
-                elif cityMap.cityMap[y][x] == '-':
+                elif currentMap[y][x] == '-':
                     city.alpha_composite(self.left,position)
 
         city.save('city.png')
