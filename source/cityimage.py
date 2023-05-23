@@ -25,7 +25,7 @@ class CityImage:
         cityMapGen.generateCity(mapSize[0],mapSize[1])
         
         # Start in top 1/3 of the map
-        startPosition = (imageSize[0] // 3, imageSize[1] // 3)
+        startPosition = (0, 0)
 
         # Currently, these are hardcoded
         tile_width_half = 64
