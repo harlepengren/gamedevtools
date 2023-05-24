@@ -18,7 +18,7 @@ class City:
 
         self.cityMap = ndarray((width,height),dtype='O')
 
-        # Place a starting intersection in the middle of the map
+        # Place a starting intersection in the upper third of the map
         currX = self.width // 3 
         currY = self.height // 3
         self.cityMap[currY][currX] = '#'
