@@ -11,8 +11,8 @@ class City:
     # |: vertical road
     TILE_TYPES = ["b","#","o","-","|"]
 
-    def generateCity(self,width,height):
-        """Create a map of size width x height."""
+    def generateCity(self,width,height,numBuildings=0):
+        """Create a map of size width x height. numBuildings is the number of possible buildings to place."""
         self.width = width
         self.height = height
 
@@ -29,8 +29,11 @@ class City:
         self.newRoad((currX,currY),'l')
         self.newRoad((currX,currY),'r')
 
-        # Currently the final checkCheck is commented out, because it is resulting in unpredicatble results.
-        #self.finalCheck()
+        # Walk through and place buildings
+        for y in range(0,height):
+            for x in range(0,width):
+                if self.cityMap[y][x] in [None,'b']:
+                    self.cityMap[y][x] = random.randint(0,numBuildings-1)
 
 
     def newIntersection(self,currentPosition,direction):
