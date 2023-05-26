@@ -27,16 +27,16 @@ class TileData:
 
 class CityImage:
     def loadIntersection(self,intersectionPath):
-        self.intersection = Image.open(intersectionPath)
-        self.intersection = self.intersection.convert("RGBA")
+        self.intersection = TileData('intersection',size=(128,64))
+        self.intersection.image = Image.open(intersectionPath)
     
     def loadUp(self,upPath):
-        self.up = Image.open(upPath)
-        self.up = self.up.convert("RGBA")
+        self.up = TileData('up',size=(128,64))
+        self.up.image = Image.open(upPath)
 
     def loadLeft(self,leftPath):
-        self.left = Image.open(leftPath)
-        self.left = self.left.convert("RGBA")
+        self.left = TileData('left',size=(128,64))
+        self.left.image = Image.open(leftPath)
 
     def loadBuildings(self,buildings,imgPath,xmlPath):
         """buildings is the list of building numbers to load."""
@@ -67,26 +67,26 @@ class CityImage:
         
         startPosition = (0, 0)
 
-        # Currently, these are hardcoded
-        tile_width_half = 64
-        tile_height_half = 32
-
         # Translate the cityMap into an image
         currentMap = cityMapGen.getMap()
         for y in range(0,mapSize[1]):
             for x in range(0,mapSize[0]):
-                position = ((x*tile_width_half)-(y*tile_width_half)+startPosition[0],(y*tile_height_half)+(x*tile_height_half)+startPosition[1])
-
                 if currentMap[y][x] == '#':
-                    city.alpha_composite(self.intersection,position)
+                    currentTile = self.intersection
                 elif currentMap[y][x] == '|':
-                    city.alpha_composite(self.up,position)
+                    currentTile = self.up
                 elif currentMap[y][x] == '-':
-                    city.alpha_composite(self.left,position)
+                    currentTile = self.left
                 elif type(currentMap[y][x]) == int:
                     # Place building
                     if currentMap[y][x] < len(self.buildingList):
-                        city.alpha_composite(self.buildingList[currentMap[y][x]].image,position)
+                        currentTile = self.buildingList[currentMap[y][x]]
+
+                tile_width_half = currentTile.size[0]//2
+                tile_height_half = currentTile.size[1]//2
+
+                position = ((x*tile_width_half)-(y*tile_width_half)+startPosition[0],(y*tile_height_half)+(x*tile_height_half)+startPosition[1])
+                city.alpha_composite(currentTile.image,position)
 
         city.save('city.png')
 
