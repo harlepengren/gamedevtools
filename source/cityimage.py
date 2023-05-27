@@ -71,6 +71,9 @@ class CityImage:
         currentMap = cityMapGen.getMap()
         for y in range(0,mapSize[1]):
             for x in range(0,mapSize[0]):
+                tile_width_half = 64
+                tile_height_half = 32
+
                 if currentMap[y][x] == '#':
                     currentTile = self.intersection
                 elif currentMap[y][x] == '|':
@@ -82,8 +85,7 @@ class CityImage:
                     if currentMap[y][x] < len(self.buildingList):
                         currentTile = self.buildingList[currentMap[y][x]]
 
-                tile_width_half = currentTile.size[0]//2
-                tile_height_half = currentTile.size[1]//2
+                
 
                 position = ((x*tile_width_half)-(y*tile_width_half)+startPosition[0],(y*tile_height_half)+(x*tile_height_half)+startPosition[1])
                 city.alpha_composite(currentTile.image,position)
