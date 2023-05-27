@@ -68,7 +68,6 @@ class CityImage:
                 tile.loadImage(spriteSheet)
 
                 self.levelDict[str(currentNumber)] = tile
-                print("Level Dict",str(currentNumber),tile.name)
             
             if currentNumber in rooves:
                 tile = TileData(name = currentNumber)
@@ -115,7 +114,7 @@ class CityImage:
                             hasLevels = True
                             levelTile = self.levelDict[str(currentTile.levelRef)]
 
-                        roofType = random.randint(0,len(self.roofList)+1)
+                        roofType = random.randint(0,len(self.roofList))
                         if roofType > 1:
                             hasRoof = True
                             roofTile = self.roofList[roofType-1]
@@ -126,16 +125,17 @@ class CityImage:
                 position = ((x*tile_width_half)-(y*tile_width_half)+startPosition[0],(y*tile_height_half)+(x*tile_height_half)+startPosition[1]-adjustment)
                 city.alpha_composite(currentTile.image,position)
 
-                currentLevelPosition = position
                 if hasLevels:
+                    currentLevelPosition = position
                     xAdjustment = (currentTile.size[0] - levelTile.size[0]) //2
                     yAdjustment = 32
                     for index in range(0,numLevels):
                         levelPosition = (currentLevelPosition[0]+xAdjustment,currentLevelPosition[1]-yAdjustment*(index+1))
                         city.alpha_composite(levelTile.image,levelPosition)
 
-                if hasRoof:
-                    
+                    if hasRoof:
+                        roofPosition = (currentLevelPosition[0]+xAdjustment,currentLevelPosition[1]-yAdjustment*(numLevels+1))
+                        city.alpha_composite(roofTile.image,currentLevelPosition)
 
         city.save('city.png')
 
