@@ -134,8 +134,9 @@ class CityImage:
                         city.alpha_composite(levelTile.image,levelPosition)
 
                     if hasRoof:
-                        roofPosition = (currentLevelPosition[0]+xAdjustment,currentLevelPosition[1]-yAdjustment*(numLevels+1))
-                        city.alpha_composite(roofTile.image,currentLevelPosition)
+                        roofHeight = roofTile.size[1]-54
+                        roofPosition = (currentLevelPosition[0]+xAdjustment,currentLevelPosition[1]-yAdjustment*(numLevels)-roofHeight)
+                        city.alpha_composite(roofTile.image,roofPosition)
 
         city.save('city.png')
 
